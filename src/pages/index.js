@@ -1,0 +1,7 @@
+export { About } from './About'
+export { Archive } from './Archive'
+export { Contact } from './Contact'
+export { Home } from './Home'
+export { Legal } from './Legal'
+export { Project } from './Project'
+export { Work } from './Work'

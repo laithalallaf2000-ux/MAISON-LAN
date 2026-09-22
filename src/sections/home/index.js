@@ -1,0 +1,8 @@
+export { ClientStrip } from './ClientStrip'
+export { ContactCta } from './ContactCta'
+export { Figures } from './Figures'
+export { Hero } from './Hero'
+export { SelectedWork } from './SelectedWork'
+export { ServiceStack } from './ServiceStack'
+export { Story } from './Story'
+export { Testimonials } from './Testimonials'
