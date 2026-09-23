@@ -84,3 +84,18 @@ export function normalizePath(pathname) {
 export function findRoute(pathname) {
   return routesByPath.get(normalizePath(pathname))
 }
+
+/**
+ * Metadata for the not-found page.
+ *
+ * This is not a route — nothing links to it and it has no path of its own.
+ * The build writes it to `dist/404.html`, which static hosts serve for any
+ * unknown URL. Without it the host shows its own branded error page instead
+ * of the site's.
+ */
+export const notFoundRoute = {
+  path: '/404.html',
+  title: `Page not found — ${SITE.name}`,
+  description: `The page you are looking for is not part of the ${SITE.name} website.`,
+  indexable: false
+}

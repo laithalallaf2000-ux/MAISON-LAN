@@ -10,7 +10,7 @@
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { routes } from '../src/routes.js'
+import { notFoundRoute, routes } from '../src/routes.js'
 import { SITE } from '../src/site.js'
 
 const DIST = resolve(process.cwd(), 'dist')
@@ -156,6 +156,10 @@ for (const route of routes) {
   await writeFile(resolve(directory, 'index.html'), renderRoute({ template, route }))
 }
 
+// Served by the host for any unknown URL, so a mistyped link lands on the
+// site's own 404 rather than the host's default error page.
+await writeFile(resolve(DIST, '404.html'), renderRoute({ template, route: notFoundRoute }))
+
 await writeFile(
   resolve(DIST, 'sitemap.xml'),
   buildSitemap(routes.filter(r => r.indexable !== false))
@@ -164,5 +168,14 @@ await writeFile(
   resolve(DIST, 'robots.txt'),
   `User-agent: *\nAllow: /\nSitemap: ${ORIGIN}/sitemap.xml\n`
 )
+
+if (!process.env.SITE_URL) {
+  console.warn(
+    `\n  ! SITE_URL is not set, so canonical and sitemap URLs point at ${SITE.defaultOrigin}.\n` +
+      `    Pointing them at a domain you do not control tells search engines to\n` +
+      `    credit that domain instead of yours. Build with:\n\n` +
+      `      SITE_URL=https://your-domain.com npm run build\n`
+  )
+}
 
 console.log(`Prerendered ${routes.length} static routes with SEO metadata.`)

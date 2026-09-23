@@ -68,6 +68,13 @@ Set the public URL at build time so canonical, Open Graph and sitemap URLs match
 SITE_URL=https://your-domain.com npm run build
 ```
 
+This matters more than it looks. Without it the canonical tags point at the placeholder
+domain, which tells search engines to credit **that** domain rather than yours — so the
+build prints a warning when `SITE_URL` is missing.
+
+The build also writes `dist/404.html`. Most static hosts serve it for unknown URLs, which
+keeps mistyped links on the site's own 404 page instead of the host's branded error page.
+
 ## Project structure
 
 ```
